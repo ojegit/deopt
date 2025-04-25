@@ -29,7 +29,7 @@ def de(obj_fun_,
        print_int = 1):
     
     """
-    Differential Evolution (DE) for global minimization
+    Differential Evolution (DE) for global optimization
 
     Parameters:
     -----------
@@ -329,7 +329,7 @@ def de(obj_fun_,
             mutations_pct = 100 * no_mutations/(count*D*NP);
       
             print('GEN NO %d/%d | OF_MIN: %.*e, COF_MIN: %.*e (%d) | COF: %.*e (%d) | MUT: %.2f %% (gamma: %.2e)' % (
-               count,gen_max,no_dec,of_min,no_dec,cof_min,of_min_stuck,no_dec,np.mean(cof_hist[0:l]),stuck,mutations_pct,gamma_))
+                count,gen_max,no_dec,of_min,no_dec,cof_min,of_min_stuck,no_dec,np.mean(cof_hist[0:l]),stuck,mutations_pct,gamma_))
         #endif
         
         if l >= cof_hist_count and np.mean(cof_hist) < cof_tol:
@@ -344,7 +344,11 @@ def de(obj_fun_,
         
         if exit_flag > 0:
             if print_int > 0:
+                print('-'*60)
                 print(f'exit_flag: {exit_flag}')
+                print('-'*60)
+                print('GEN NO %d/%d | OF_MIN: %.*e, COF_MIN: %.*e (%d) | COF: %.*e (%d) | MUT: %.2f %% (gamma: %.2e)' % (
+                    count,gen_max,no_dec,of_min,no_dec,cof_min,of_min_stuck,no_dec,np.mean(cof_hist[0:l]),stuck,mutations_pct,gamma_))
             break
         #endif
     #endfor
@@ -357,5 +361,5 @@ def de(obj_fun_,
         print('Done!')
     #enfif
 
-    return xmin, of_min, exit_flag
+    return xmin.flatten(), of_min, exit_flag
 #enddef

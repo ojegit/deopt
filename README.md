@@ -1,6 +1,6 @@
 # deopt
 
-**deopt** is an experimental Python package for performing **Differential Evolution** (DE) optimization. This is currently in the early stages of development.
+**deopt** is an experimental Python package for performing **Differential Evolution** (DE) global optimization. This is currently in the early stages of development.
 
 ## Version
 
@@ -16,7 +16,7 @@
 ```./src/de.py``` docstring:
 
 ```
-Differential Evolution (DE) for global minimization
+Differential Evolution (DE) for global optimization
 
     Parameters:
     -----------
