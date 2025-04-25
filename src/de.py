@@ -8,14 +8,122 @@ import numpy as np
 # Differential Evolution (DE)
 # ---------------------------
 
-def de(obj_fun_, lb, ub, pars_init = None, no_diff = 1,
-          mutate_first_term = 2, NP = 10, CR = 0.8, F = [0.1995,0.2005],
-          cauchy_mutation_prob = -1, gen_max = 400,
-          F_gen_policy = 'generation', cauchy_mutation_policy = 'generation',
-          gamma = [0.01,0.001],
-          xmin_update_policy = 'generation', of_min_stuck_stop = 10, cof_tol = 1e-3,
-          cof_min_tol = -1,
-          print_int = 1):
+def de(obj_fun_, 
+       lb, 
+       ub, 
+       pars_init = None, 
+       no_diff = 1,
+       mutate_first_term = 2, 
+       NP = 10, 
+       CR = 0.8, 
+       F = [0.1995,0.2005],
+       cauchy_mutation_prob = -1, 
+       gen_max = 400,
+       F_gen_policy = 'generation', 
+       cauchy_mutation_policy = 'generation',
+       gamma = [0.01,0.001],
+       xmin_update_policy = 'generation', 
+       of_min_stuck_stop = 10, 
+       cof_tol = 1e-3,
+       cof_min_tol = -1,
+       print_int = 1):
+    
+    """
+    Differential Evolution (DE) for global minimization
+
+    Parameters:
+    -----------
+    obj_fun_ : function
+        The objective function to be minimized. This function should take
+        a single input vector and return a scalar value.
+    
+    lb : array-like
+        Lower bounds for the parameters, should match the dimensionality
+        of the problem.
+    
+    ub : array-like
+        Upper bounds for the parameters, should match the dimensionality
+        of the problem.
+    
+    pars_init : array-like, optional
+        Initial guess for the parameters. If not provided, random initialization
+        within bounds `lb` and `ub` is used.
+    
+    no_diff : int, optional
+        The number of difference vectors used in mutation. Default is 1.
+    
+    mutate_first_term : int, optional
+        Controls how the first mutation term is generated:
+        - 1: Random mutation
+        - 2: Best individual mutation
+        - 3: Mixed mutation
+    
+    NP : int, optional
+        The population size (number of individuals in each generation).
+        Default is 10.
+    
+    CR : float, optional
+        Crossover probability. Determines the likelihood of an individual
+        being modified by a trial vector. Should be between 0 and 1.
+    
+    F : list of floats, optional
+        The scaling factor(s) used for mutation. Default is [0.1995, 0.2005].
+    
+    cauchy_mutation_prob : float, optional
+        The probability of applying Cauchy mutation. If <= 0, Cauchy mutation
+        is not used. Default is -1 (no Cauchy mutation).
+    
+    gen_max : int, optional
+        The maximum number of generations for the optimization process.
+    
+    F_gen_policy : str, optional
+        Determines how mutation scaling factors are generated:
+        - 'generation' : scaling factor changes each generation
+        - 'parameter' : scaling factor remains constant throughout.
+    
+    cauchy_mutation_policy : str, optional
+        Determines when Cauchy mutation is applied:
+        - 'generation' : apply Cauchy mutation every generation
+        - 'parameter' : apply Cauchy mutation based on parameters.
+    
+    gamma : list of floats, optional
+        Parameters controlling the decay rate for Cauchy mutation.
+    
+    xmin_update_policy : str, optional
+        Determines when to update the best solution:
+        - 'generation' : update each generation
+        - 'parameter' : update based on parameter comparison.
+    
+    of_min_stuck_stop : int, optional
+        Maximum number of generations with no improvement in the best
+        objective function value before stopping.
+    
+    cof_tol : float, optional
+        Convergence tolerance for stopping criteria based on change in objective
+        function value.
+    
+    cof_min_tol : float, optional
+        Minimum tolerance for change in objective function value before stopping.
+    
+    print_int : int, optional
+        Controls the verbosity of the output. If greater than 0, progress
+        information will be printed every `print_int` generations.
+
+    Returns:
+    --------
+    xmin : array-like
+        The best solution found by the algorithm.
+    
+    of_min : float
+        The objective function value corresponding to the best solution.
+    
+    exit_flag : int
+        A flag indicating why the optimization process stopped:
+        - 1: Convergence reached based on objective function tolerance.
+        - 2: Stagnation (no improvement for `of_min_stuck_stop` generations).
+        - 3: Objective function change below `cof_min_tol`.
+        - 4: Reached `gen_max` generations.
+    """
     
     ###
     mutate_first_term_3_prob = 0.5 #probability of choosing between 1 and 2 when mutate_first_term = 3
@@ -40,7 +148,7 @@ def de(obj_fun_, lb, ub, pars_init = None, no_diff = 1,
     if xmin_update_policy not in ['generation','parameter']:
         raise Exception('xmin_update_policy must be either ''generation'' or ''parameter''.')
     if not 0 < CR <= 1:
-        raise Expection('CR must be in [0,1].')
+        raise Exception('CR must be in [0,1].')
     if gen_max <= 0:
         raise Exception('gen_max must be positive.')
     if not len(gamma) == 2:
