@@ -12,6 +12,13 @@
 - Supports both logistic and tanh transformations for parameter mapping
 - Includes Cauchy mutation for added diversity in mutation
 
+
+## Requirements
+Python 3.12 or later. 
+```
+numpy>=2.1.3
+```
+
 ## Installation (Local)
 
 Clone the repository and install the package locally:
@@ -20,3 +27,8 @@ Clone the repository and install the package locally:
 git clone https://github.com/ojegit/deopt.git
 cd deopt
 pip install -e .
+```
+
+## References
+
+Storn, R., & Price, K. (1997). Differential evolution–a simple and efficient heuristic for global optimization over continuous spaces. Journal of global optimization, 11, 341-359. <br/>

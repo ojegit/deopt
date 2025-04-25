@@ -8,7 +8,7 @@ import numpy as np
 # Differential Evolution (DE)
 # ---------------------------
 
-def de_v1(obj_fun_, lb, ub, pars_init = None, no_diff = 1,
+def de(obj_fun_, lb, ub, pars_init = None, no_diff = 1,
           mutate_first_term = 2, NP = 10, CR = 0.8, F = [0.1995,0.2005],
           cauchy_mutation_prob = -1, gen_max = 400,
           F_gen_policy = 'generation', cauchy_mutation_policy = 'generation',
